@@ -1,0 +1,56 @@
+.app__navbar {
+    justify-content: flex-end;
+  }
+  
+  .app__navbar-icon {
+    width: 80px;
+    padding: 1.5rem;
+  }
+
+  .delete {
+    width: 60px;
+  }
+  
+  .app__navbar-menu {
+    height: 100vh;
+    width: 80vw;
+    position: absolute;
+    top: 0px;
+    right: -80vw;
+    background-color: rgba(35, 31, 32, 0.95);
+    transition: all 0.7s ease-in-out;
+    z-index: 10;
+  }
+  
+  .toggled {
+    right: 0px;
+  }
+
+.app__navbar-item {
+  color: #fff;
+  margin: 1rem;
+  transition: all 0.5s ease-in-out;
+  border-bottom: 1px solid var(--gray-color);
+}
+
+.app__navbar-item:hover {
+  color: var(--purple-color);
+}
+
+.app__navbar-item h3 {
+  padding-bottom: 0.5em;
+}
+
+.selected {
+  color: var(--purple-color);
+}
+
+@media  screen and (max-width: 1200px) {
+  .app__navbar-icon {
+    width: 50px;
+  }
+
+  .delete {
+    width: 40px;
+  }
+}

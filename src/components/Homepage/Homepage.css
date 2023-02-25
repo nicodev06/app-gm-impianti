@@ -1,0 +1,9 @@
+.app__homepage-topbar, .item-settings, .app__projects-item {
+    justify-content: space-between;
+}
+
+.app__projects {
+    margin-top: 1rem;
+    width: 100%;
+    height: 35vh;
+}
