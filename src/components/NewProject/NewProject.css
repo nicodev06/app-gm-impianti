@@ -1,0 +1,40 @@
+.app__new-project {
+    margin: 1rem;
+}
+
+.app__new-project-inputs input, .app__new-project-inputs textarea {
+    width: 100%;
+    margin-top: 1rem;
+    background-color: transparent;
+    border: 1px solid var(--orange-color);
+    border-radius: 5px;
+    height: 2rem;
+    color: #fff;
+    margin-right: 1rem; 
+}
+
+.app__new-project-inputs input::placeholder, .app__new-project-inputs textarea::placeholder {
+    color: var(--gray-color);
+    padding-left: 0.8em;
+    font-size: 1.2em;
+}
+
+.app__new-project-inputs input:focus, .app__new-project-inputs textarea:focus {
+    outline: 0;
+    border: 1px solid var(--orange-color);
+    caret-color: var(--orange-color);
+}
+
+.new-project-checkbox {
+    display: flex;
+    align-items: center;
+    color: #fff;
+}
+
+button.new-project {
+    width: 100%;
+    color: #fff;
+    background-color: var(--green-color);
+    border: none;
+    margin-top: 1rem;
+}

@@ -5,5 +5,54 @@
 .app__projects {
     margin-top: 1rem;
     width: 100%;
-    height: 35vh;
+}
+
+.app__projects-item {
+    border-bottom: 1px solid var(--gray-color);
+}
+
+.item-settings button {
+    margin-right: 0.5rem;
+}
+
+.item-settings button img {
+    width: 2rem;
+    height: 1.5rem;
+}
+
+.projects__buttons {
+    margin-top: 1rem;
+}
+
+.projects__buttons section {
+    width: 100%;
+}
+
+.projects__buttons section.first-section{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 1.5rem;
+    grid-row-gap: 0px;
+}
+
+.projects__buttons section {
+    margin-top: 2rem;
+}
+
+.projects__buttons section.first-section h3 {
+    color: #fff;
+    font-weight: 300;
+}
+
+.projects__buttons section.second-section button, .projects__buttons section.third-section button  {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.projects__buttons section.second-section button h2, .projects__buttons section.third-section button h2 {
+    color: #fff;
+    font-weight: 800;
 }
