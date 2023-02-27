@@ -1,0 +1,10 @@
+.app__rapporto-giornaliero {
+    margin: 1rem;
+    color: #fff;
+}
+
+.app__raporto-giornaliero-workers div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

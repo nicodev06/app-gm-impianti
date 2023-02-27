@@ -1,0 +1,24 @@
+.app__buste-paga {
+    margin: 1rem;
+    color: #fff;
+}
+
+.app__buste-paga-add {
+    margin-top: 2rem;
+}
+
+.app__buste-paga-choice-month {
+    margin-left: 2rem;
+}
+
+select {
+    background-color: var(--dark-color);
+    border: 1px solid var(--orange-color);
+    border-radius: 5px;
+    color: var(--orange-color);
+    padding: 0.5em;
+}
+
+select:focus {
+    outline: 0;
+}

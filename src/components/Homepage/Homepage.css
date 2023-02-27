@@ -3,7 +3,6 @@
 }
 
 .app__projects {
-    margin-top: 1rem;
     width: 100%;
 }
 
@@ -21,7 +20,7 @@
 }
 
 .projects__buttons {
-    margin-top: 1rem;
+    margin-top: 0.8rem;
 }
 
 .projects__buttons section {

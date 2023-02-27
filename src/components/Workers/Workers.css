@@ -1,0 +1,15 @@
+.app__workers {
+    margin: 1rem;
+    color: #fff;
+}
+
+button.new-worker {
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    color: #fff;
+}
+
+button.new-worker h2 {
+    font-weight: 600;
+}

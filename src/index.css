@@ -1,6 +1,6 @@
 :root {
   --dark-color: #231f20;
-  --orange-color: #9d6f4a;
+  --orange-color: #e88039;
   --green-color: #8cc63e;
   --purple-color: #d70a77;
   --gray-color: #939192;
@@ -47,6 +47,11 @@ button {
   border: 1px solid var(--orange-color);
   border-radius: 5px;
   color: none;
+  transition: all 0.5s ease-in-out;
+}
+
+button:hover {
+  background-color: var(--orange-color);
 }
 
 a:hover, button:hover {

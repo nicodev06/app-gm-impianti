@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { Link } from 'react-router-dom';
+
 import eye from '../../assets/eye.svg';
 import textAlign from '../../assets/text-align.svg';
 import settings from '../../assets/settings.svg';
@@ -10,9 +12,11 @@ const Projects = () => {
         <div className='app__projects-item align-items-center'>
             <h3 style={{ fontWeight: 300}}>progetto 1</h3>
             <div className='align-items-center item-settings'>
-                <button>
-                  <img src={eye} alt="eye" />
-                </button>
+                <Link to='/progetto'>
+                  <button>
+                    <img src={eye} alt="eye" />
+                  </button>
+                </Link>
                 <button>
                   <img src={textAlign} alt="text-align" />
                 </button>
@@ -24,9 +28,11 @@ const Projects = () => {
         <div className='app__projects-item align-items-center'>
             <h3 style={{ fontWeight: 300}}>progetto 2</h3>
             <div className='align-items-center item-settings'>
-                <button>
-                  <img src={eye} alt="eye" />
-                </button>
+                <Link to='/progetto'>
+                  <button>
+                    <img src={eye} alt="eye" />
+                  </button>
+                </Link>
                 <button>
                   <img src={textAlign} alt="text-align" />
                 </button>
@@ -38,9 +44,11 @@ const Projects = () => {
         <div className='app__projects-item align-items-center'>
             <h3 style={{ fontWeight: 300}}>progetto 3</h3>
             <div className='align-items-center item-settings'>
-                <button>
-                  <img src={eye} alt="eye" />
-                </button>
+                <Link to='/progetto'>
+                  <button>
+                    <img src={eye} alt="eye" />
+                  </button>
+                </Link>
                 <button>
                   <img src={settings} alt="settings" />
                 </button>
@@ -49,9 +57,11 @@ const Projects = () => {
         <div className='app__projects-item align-items-center'>
             <h3 style={{ fontWeight: 300}}>progetto 4</h3>
             <div className='align-items-center item-settings'>
-                <button>
-                  <img src={eye} alt="eye" />
-                </button>
+                <Link to='/progetto'>
+                  <button>
+                    <img src={eye} alt="eye" />
+                  </button>
+                </Link>
                 <button>
                   <img src={textAlign} alt="text-align" />
                 </button>
@@ -63,9 +73,11 @@ const Projects = () => {
         <div className='app__projects-item align-items-center'>
             <h3 style={{ fontWeight: 300}}>progetto 5</h3>
             <div className='align-items-center item-settings'>
-                <button>
-                  <img src={eye} alt="eye" />
-                </button>
+                <Link to='/progetto'>
+                  <button>
+                    <img src={eye} alt="eye" />
+                  </button>
+                </Link>
                 <button>
                   <img src={settings} alt="settings" />
                 </button>

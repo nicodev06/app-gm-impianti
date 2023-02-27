@@ -38,3 +38,11 @@ button.new-project {
     border: none;
     margin-top: 1rem;
 }
+
+button.new-project h3 {
+    font-weight: 800;
+}
+
+.new-project-checkbox h3 { 
+    margin: 0.5rem;
+}

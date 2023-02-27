@@ -1,0 +1,24 @@
+.app__project-page {
+    margin: 1rem;
+    color: #fff;
+}
+
+.attached-picture {
+    background-color: #343534;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20vw;
+    height: 20vw;
+    border-radius: 10px;
+    z-index: 10; /* Make the other pictures to scroll behind this*/
+}
+
+.attached-picture:hover {
+    cursor: pointer;
+}
+
+.attached-picture span {
+    font-size: 3.5rem;
+    padding-bottom: 0.2em;
+}
