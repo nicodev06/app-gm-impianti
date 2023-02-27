@@ -81,6 +81,10 @@ button.add {
   border-radius: 10px;
 }
 
+.checkbox:hover {
+  background-color: var(--green-color);
+}
+
 .active {
   background-color: var(--green-color);
 }
