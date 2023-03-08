@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 
+import Layout from './components/Layout';
 import Navbar from './components/Navbar/Navbar';
 import Homepage from './components/Homepage/Homepage';
 import NewProject from './components/NewProject/NewProject';
@@ -12,24 +13,29 @@ import ReportOre from './components/ReportOre/ReportOre';
 import UpdateHours from './components/UpdateHours/UpdateHours';
 import CreaRapporto from './components/CreaRapporto/CreaRapporto';
 import CreaRapportoGiornaliero from './components/CreaRapportoGiornaliero/CreaRapportoGiornaliero';
+import Login from './components/Auth/Login';
  
 function App() {
+
   return (
     <>
       <BrowserRouter>
         <Navbar/>
-        <Routes>
-          <Route index element={<Homepage/>}/>
-          <Route path='/nuovo-progetto' element={<NewProject/>}/>
-          <Route path='/progetto' element={<ProjectPage/>}/>
-          <Route path='/lavoratori' element={<Workers/>}/>
-          <Route path='/buste-paga' element={<Bustepaga/>}/>
-          <Route path='/buste-paga/:worker' element={<Bustepaga/>}/>
-          <Route path='/report-ore/:worker' element={<ReportOre/>}/>
-          <Route path='/aggiorna-ore' element={<UpdateHours/>}/>
-          <Route path='/crea-rapporto' element={<CreaRapporto/>}/>
-          <Route path='/crea-rapporto-giornaliero' element={<CreaRapportoGiornaliero/>}/>
-        </Routes>
+        <Layout>
+          <Routes>
+            <Route index element={<Homepage/>}/>
+            <Route path='/nuovo-progetto' element={<NewProject/>}/>
+            <Route path='/progetto' element={<ProjectPage/>}/>
+            <Route path='/lavoratori' element={<Workers/>}/>
+            <Route path='/buste-paga' element={<Bustepaga/>}/>
+            <Route path='/buste-paga/:worker' element={<Bustepaga/>}/>
+            <Route path='/report-ore/:worker' element={<ReportOre/>}/>
+            <Route path='/aggiorna-ore' element={<UpdateHours/>}/>
+            <Route path='/crea-rapporto' element={<CreaRapporto/>}/>
+            <Route path='/crea-rapporto-giornaliero' element={<CreaRapportoGiornaliero/>}/>
+            <Route path='/login' element={<Login/>}/>
+          </Routes>
+        </Layout>
       </BrowserRouter>
     </>
   );

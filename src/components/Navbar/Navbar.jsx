@@ -13,6 +13,10 @@ const Navbar = () => {
 
   const [isOpen, setIsOpen] = useState(false);
   const { pathname } = useLocation();
+
+  if (pathname === '/login'){
+    return <></>
+  }
     
   return (
     <>

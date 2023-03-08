@@ -1,0 +1,38 @@
+.app__login {
+    margin: 2rem;
+}
+
+.login-button {
+    background-color: var(--green-color);
+    border-color: var(--green-color);
+    transition: all 0.7s ease-in-out;
+}
+
+.login-button:hover {
+    background-color: var(--orange-color) !important;
+}
+
+.login-input {
+    width: 100%;
+    background-color: transparent;
+    border: 1px solid var(--orange-color);
+    border-radius: 5px;
+    height: 2rem;
+    color: #fff;  
+}
+
+.login-input::placeholder {
+    color: var(--gray-color);
+    padding-left: 0.8em;
+    font-size: 1.2em;
+}
+
+.login-input:hover, .login-input:focus {
+    border: 1px solid var(--orange-color);
+}
+
+
+a.supabase-auth-ui_ui-anchor {
+    display: none;
+    pointer-events: none;
+} 
