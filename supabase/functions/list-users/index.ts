@@ -13,32 +13,31 @@ serve(async (req) => {
   }
 
   const serviceRoleKey : string = Deno.env.get("SERVICE_ROLE_KEY") || "";
-  const supabase = createClient("https://asmmbkocsiqdzmghrtwz.supabase.co", serviceRoleKey); 
+  const supabase = createClient("https://asmmbkocsiqdzmghrtwz.supabase.co", serviceRoleKey);
 
-  const {email, password} = await req.json()
   
-  const {data, error} = await supabase.auth.admin.createUser({
-    email,
-    password,
-    email_confirm: true
-  });
+  const { data: { users }, error } = await supabase.auth.admin.listUsers({
+    page: 1,
+    perPage: 1000
+  })
 
+  
   const responseData = {
-    data,
+    users,
     error
-  };
+  }
 
   return new Response(
     JSON.stringify(responseData),
-    {
-      status: error ? 400 : 200, 
-      headers: {...corsHeaders,  "Content-Type": "application/json" } 
+    { 
+      headers: {...corsHeaders, "Content-Type": "application/json" }, 
+      status: error ? 400 : 200
     },
   )
 })
 
-/* To invoke:
- curl -i --location --request POST 'http://localhost:54321/functions/v1/' \
+// To invoke:
+ /*curl -i --location --request POST 'http://localhost:54321/functions/v1/' \
    --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0' \
    --header 'Content-Type: application/json' \
-   --data '{"email":"nicolo'.teseo.s@liceogullace.edu.it", "password": "Lucasuca"}'*/
+   --data '{"name":"Functions"}'*/

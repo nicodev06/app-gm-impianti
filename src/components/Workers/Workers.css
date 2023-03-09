@@ -13,3 +13,16 @@ button.new-worker {
 button.new-worker h2 {
     font-weight: 600;
 }
+
+.create-worker {
+    padding: 0.7em;
+}
+
+.close-popup {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.close-popup h4 {
+    margin: 0.5rem;
+}

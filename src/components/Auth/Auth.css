@@ -29,6 +29,7 @@
 
 .login-input:hover, .login-input:focus {
     border: 1px solid var(--orange-color);
+    outline: 0;
 }
 
 

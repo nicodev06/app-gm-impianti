@@ -93,3 +93,37 @@ button.add {
   border: 1px solid #fff;
   background-color: transparent;
 }
+
+.app__popup {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app__popup-children {
+  background-color: var(--dark-color);
+  border-radius: 5px;
+  box-shadow: 1px 1px var(--dark-color);
+}
+
+.green-button {
+  width: 100%;
+  background-color: var(--green-color);
+  border: none;
+  color: white;
+}
+
+.loading {
+  width: 100vw;
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
