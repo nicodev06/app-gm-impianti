@@ -107,6 +107,7 @@ button.add {
 }
 
 .app__popup-children {
+  width: 95%;
   background-color: var(--dark-color);
   border-radius: 5px;
   box-shadow: 1px 1px var(--dark-color);
@@ -115,6 +116,13 @@ button.add {
 .green-button {
   width: 100%;
   background-color: var(--green-color);
+  border: none;
+  color: white;
+}
+
+.red-button {
+  width: 100%;
+  background-color: red;
   border: none;
   color: white;
 }

@@ -6,13 +6,17 @@ const CreateWorker = ({ handleClose }) => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const create = async () => {
+  const create = () => {
     if (email.length > 0 && password.length > 0){
-        const { data, error } = await supabase.functions.invoke('create-worker', {
+        supabase.functions.invoke('create-worker', {
             body: {email, password},
+        }).then(() => {
+            setLoading(false);
+            handleClose();
         })
-        handleClose();
+        setLoading(true);
     }
   }
     
@@ -29,7 +33,7 @@ const CreateWorker = ({ handleClose }) => {
         </div>
         <div className='align-items-center' style={{marginTop: '2rem'}}>
             <button className='green-button' onClick={create}>
-                <h3>CREA</h3>
+                <h3>{loading ? 'CARICAMENTO...' : 'CREA'}</h3>
             </button>
         </div>
     </div>

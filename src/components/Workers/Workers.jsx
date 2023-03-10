@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 import Popup from '../Popup';
 import CreateWorker from './CreateWorker';
+import UpdateWorker from './UpdateWorker';
 
 import './Workers.css';
 import clock from '../../assets/clock.svg';
@@ -15,11 +16,14 @@ import { supabase } from '../../utils/supabase-client';
 const Workers = () => {
 
   const [showPopUp, setShowPopUp] = useState(false);
-  const [workers, setWorkers] = useState([]); 
+  const [popUpContent, setPopUpContent] = useState("");
+  const [workers, setWorkers] = useState([]);
+  const [currentWorker, setCurrentWorker] = useState(null); 
 
   useEffect(() => {
     supabase.functions.invoke('list-users', {}).then(({ data }) => {
       setWorkers(data?.users);
+      console.log(data?.users);
     })
   }, [])
 
@@ -31,13 +35,24 @@ const Workers = () => {
     )
   }
 
+  const handleClose = () => {
+    supabase.functions.invoke('list-users', {}).then(({ data }) => {
+      setWorkers(data?.users);
+      setShowPopUp(false);
+    });
+  }
+
 
   return (
     <div className='app__workers'>
       <div className='app__homepage-topbar align-items-center'>
         <h2>LAVORATORI</h2>
         <div className='align-items-center'>
-          <button className='add' style={{border: 'none'}}>+</button>
+          <button className='add' style={{border: 'none'}} onClick={() => {
+            setPopUpContent("");
+            setShowPopUp(true);
+          }}
+          >+</button>
           <h3 style={{fontWeight: 400, marginLeft: '0.5rem'}}>NUOVO</h3>
         </div>
       </div>
@@ -45,8 +60,8 @@ const Workers = () => {
         {workers.map((worker) => {
           return (
             <div className='app__projects-item align-items-center'>
-              <div>
-                <h3 style={{ fontWeight: 300}}>{worker.email}</h3>
+              <div style={{display: 'block',width: '50%', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}>
+                <h3 style={{fontWeight: 300, width: '100%'}}>{worker.email}</h3>
               </div>
               <div className='align-items-center item-settings'>
                   <Link to={'/report-ore/lavoratore1'}>
@@ -59,7 +74,11 @@ const Workers = () => {
                       <img src={euro} alt="euro" />
                     </button>
                   </Link>
-                  <button>
+                  <button onClick={() => {
+                    setPopUpContent('update');
+                    setCurrentWorker(worker);
+                    setShowPopUp(true);
+                  }}>
                     <img src={settings} alt="settings" />
                   </button>
               </div>
@@ -70,7 +89,10 @@ const Workers = () => {
       <div>
         <button 
         className='new-worker'
-        onClick={() => {setShowPopUp(true)}}
+        onClick={() => {
+          setPopUpContent("");
+          setShowPopUp(true);
+        }}
         >
           <button 
           className='add' 
@@ -81,7 +103,7 @@ const Workers = () => {
       </div>
       {showPopUp && 
       <Popup handleClose={() => {setShowPopUp(false)}}>
-        <CreateWorker handleClose={() => {setShowPopUp(false)}}/>
+        {popUpContent === "update" ? <UpdateWorker currentWorker={currentWorker} handleClose={handleClose}/> : <CreateWorker handleClose={handleClose}/>}
       </Popup>
       }
     </div>
