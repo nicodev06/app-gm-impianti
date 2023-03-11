@@ -25,7 +25,7 @@ function App() {
           <Routes>
             <Route index element={<Homepage/>}/>
             <Route path='/nuovo-progetto' element={<NewProject/>}/>
-            <Route path='/progetto' element={<ProjectPage/>}/>
+            <Route path='/progetto/:id' element={<ProjectPage/>}/>
             <Route path='/lavoratori' element={<Workers/>}/>
             <Route path='/buste-paga' element={<Bustepaga/>}/>
             <Route path='/buste-paga/:worker' element={<Bustepaga/>}/>

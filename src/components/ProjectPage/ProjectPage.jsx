@@ -1,14 +1,52 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react';
+
+import { useParams } from 'react-router-dom';
+
+import { supabase } from '../../utils/supabase-client';
+
 import './ProjectPage.css';
 
 const ProjectPage = () => {
+
+  const [project, setProject] = useState("");
+  const [workers, setWorkers] = useState([]);
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    supabase
+    .from('projects')
+    .select('name, description')
+    .eq('id', id)
+    .then(({ data, error }) => {
+        if (!error){
+            setProject(data[0]);
+            supabase
+            .from('holdings')
+            .select('user_id')
+            .eq('project_id', id)
+            .then((({data, error}) => {
+                let user_ids = [];
+                data.forEach((item) => {
+                    user_ids.push(item.user_id);
+                })
+                supabase.functions.invoke('list-users', {
+                    body: {user_ids},
+                }).then(({data}) => {
+                    setWorkers(data);
+                })
+            }))
+        }
+    })
+  }, [])
+    
   return (
     <div className='app__project-page'>
         <div>
-            <h2>TITOLO PROGETTO</h2>
-            <h4 style={{fontWeight: 400, marginTop: '0px'}}>descrizione del progetto</h4>
+            <h2 style={{textTransform: 'uppercase'}}>{project.name}</h2>
+            <h4 style={{fontWeight: 400, marginTop: '0px'}}>{project.description}</h4>
             <h2>LAVORATORI: </h2>
-            <h4 style={{fontWeight: 400, marginTop: '0px'}}>lavoratore1, lavoratore2</h4>
+            <h4 style={{fontWeight: 400, marginTop: '0px'}}>{workers.map((item) => <span>{item.user.email}, </span>)}</h4>
         </div>
         <div className='app__new-project-inputs'>
             <textarea placeholder='Inserisci note testuali'  style={{height: '20vh'}} />

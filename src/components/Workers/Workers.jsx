@@ -21,9 +21,10 @@ const Workers = () => {
   const [currentWorker, setCurrentWorker] = useState(null); 
 
   useEffect(() => {
-    supabase.functions.invoke('list-users', {}).then(({ data }) => {
+    supabase.functions.invoke('list-users', {
+      body: {}
+    }).then(({ data }) => {
       setWorkers(data?.users);
-      console.log(data?.users);
     })
   }, [])
 
