@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 
 import { supabase } from '../../utils/supabase-client';
 
@@ -20,6 +20,8 @@ const Bustepaga = () => {
   const [payrolls, setPayrolls] = useState([]);
   const [currentMonth, setCurrentMonth] = useState(null);
   const defaultOption = useRef();
+  const [userLoggedIn, setUserLoggedIn] = useState({});
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const downloadBustaPaga = (path) => {
     supabase.storage
@@ -79,7 +81,8 @@ const Bustepaga = () => {
   }
 
   useEffect(() => {
-    supabase.auth.getUser()
+    if (!worker){
+        supabase.auth.getUser()
         .then(({data: {user}}) => {
             setCurrentUser(user);
             supabase
@@ -96,12 +99,38 @@ const Bustepaga = () => {
                 }
             })
         })
+    } else {
+        const user_ids = [worker,]
+        supabase.functions.invoke('list-users', {
+            body: {user_ids},
+        }).then(({data}) => {
+            console.log(data);
+            setCurrentUser(data[0]?.user);
+            supabase
+            .from('payrolls')
+            .select('month, path')
+            .eq('user_id', data[0]?.user.id)
+            .eq('year', new Date().getFullYear())
+            .order('month', true)
+            .then(({data, error}) => {
+                if (!error){
+                    setPayrolls(data);
+                    setUsedMonths(data.map((item) => months[item.month]))
+                    setLoading(false);
+                }
+            })
+        })
+    }
+    supabase.auth.getUser()
+    .then(({data: {user}}) => {
+        setUserLoggedIn(user);
+    })
   }, [])
   
   return (
     <div className='app__buste-paga'>
         <div>
-            <h2 style={{textTransform: 'uppercase'}}>{worker ? "BUSTE PAGA - " + worker : "LE MIE BUSTE PAGA"}</h2>
+            <h2 style={{textTransform: 'uppercase'}}>{searchParams.get('email') ? "BUSTE PAGA - " + searchParams.get('email') : "LE MIE BUSTE PAGA"}</h2>
         </div>
         <div className='app__projects'>
             {loading 
@@ -124,7 +153,7 @@ const Bustepaga = () => {
             )
         }
         </div>
-        {currentUser?.user_metadata?.is_admin && (
+        {userLoggedIn?.user_metadata?.is_admin && (
         <>
             <div className='app__buste-paga-add align-items-center'>
                 <div className='attached-picture'>

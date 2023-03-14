@@ -7,18 +7,26 @@ import textAlign from '../../assets/text-align.svg';
 import settings from '../../assets/settings.svg';
 
 import { supabase } from '../../utils/supabase-client';
+import { selectProjectsByUser } from '../../utils/select_projects_by_user';
 
 const Projects = () => {
 
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-  supabase
-    .from('projects')
-    .select('id, name')
-    .then(({ data }) => {
-      setProjects(data);
-    })
+  supabase.auth.getUser()
+  .then(({data: {user}}) => {
+    if (user?.user_metadata?.is_admin){
+      supabase
+      .from('projects')
+      .select()
+      .then(({ data }) => {
+        setProjects(data);
+      })
+    } else {
+      selectProjectsByUser(user, setProjects)
+    }
+  })
   }, [])
 
 

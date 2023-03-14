@@ -65,12 +65,12 @@ const Workers = () => {
                 <h3 style={{fontWeight: 300, width: '100%'}}>{worker.email}</h3>
               </div>
               <div className='align-items-center item-settings'>
-                  <Link to={'/report-ore/lavoratore1'}>
+                  <Link to={`/report-ore/${worker.id}?email=${worker.email}`}>
                     <button>
                       <img src={clock} alt="clock" />
                     </button>
                   </Link>
-                  <Link to='/buste-paga/lavoratore1'>
+                  <Link to={`/buste-paga/${worker.id}?email=${worker.email}`}>
                     <button>
                       <img src={euro} alt="euro" />
                     </button>
