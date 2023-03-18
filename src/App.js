@@ -14,6 +14,7 @@ import UpdateHours from './components/UpdateHours/UpdateHours';
 import CreaRapporto from './components/CreaRapporto/CreaRapporto';
 import CreaRapportoGiornaliero from './components/CreaRapportoGiornaliero/CreaRapportoGiornaliero';
 import Login from './components/Auth/Login';
+import Pdf from './components/Pdf/Pdf';
  
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
             <Route index element={<Homepage/>}/>
             <Route path='/nuovo-progetto' element={<NewProject/>}/>
             <Route path='/progetto/:id' element={<ProjectPage/>}/>
+            <Route path='/progetto/:id/pdf' element={<Pdf/>}/>
             <Route path='/lavoratori' element={<Workers/>}/>
             <Route path='/buste-paga' element={<Bustepaga/>}/>
             <Route path='/buste-paga/:worker' element={<Bustepaga/>}/>

@@ -17,7 +17,6 @@ const UpdateHours = () => {
   const navigate = useNavigate(); 
 
   const add = () => {
-    console.log(projectId, date, num);
     if (projectId && date && (num > 0)){
       const formattedDate = new Date(date);
       const ISOFormattedDate = formattedDate.toISOString();

@@ -9,6 +9,8 @@
     justify-content: center;
     align-items: center;
     width: 20vw;
+    max-width: 20vw;
+    min-width: 20vw;
     height: 20vw;
     border-radius: 10px;
     z-index: 10; /* Make the other pictures to scroll behind this*/
@@ -21,4 +23,11 @@
 .attached-picture span, .attached-picture label {
     font-size: 3.5rem;
     padding-bottom: 0.2em;
+}
+
+.images-gallery {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    align-items: center;
 }
