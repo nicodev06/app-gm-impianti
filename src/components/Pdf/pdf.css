@@ -1,0 +1,28 @@
+.pdf {
+    background-color: #fff;
+    padding: 0.5em;
+}
+
+.pdf-topbar {
+    justify-content: space-between;
+}
+
+.pdf h2 {
+    font-weight: 800;
+}
+
+.pdf p, .pdf span {
+    font-weight: 600;
+}
+
+.grid-images {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+}
+
+.grid-images img {
+    width: 100%;
+    height: auto;
+}

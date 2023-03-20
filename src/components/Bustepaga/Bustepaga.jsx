@@ -104,7 +104,6 @@ const Bustepaga = () => {
         supabase.functions.invoke('list-users', {
             body: {user_ids},
         }).then(({data}) => {
-            console.log(data);
             setCurrentUser(data[0]?.user);
             supabase
             .from('payrolls')
