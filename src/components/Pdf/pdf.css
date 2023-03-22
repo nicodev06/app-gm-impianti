@@ -1,6 +1,7 @@
 .pdf {
     background-color: #fff;
     padding: 0.5em;
+    width: 375px;
 }
 
 .pdf-topbar {
@@ -24,5 +25,26 @@
 
 .grid-images img {
     width: 100%;
+    height: auto;
+}
+
+.signature-pad {
+    margin-top: 2rem;
+    border: 1px solid var(--orange-color);
+    border-radius: 5px;
+}
+
+.signature-pad-buttons {
+    justify-content: flex-end;
+}
+
+.signature-pad-buttons button {
+    width: 110px;
+    margin: 7px;
+}
+
+img.signature {
+    margin-top: 10px;
+    width: 200px;
     height: auto;
 }

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 
 import { supabase } from '../../utils/supabase-client';
 
@@ -141,9 +141,11 @@ const ProjectPage = () => {
             </div>
         </div>
         <div style={{marginTop: '1rem'}}>
-            <button className='new-project'>
-                <h3>INSERISCI ORE</h3>
-            </button>
+            <Link to={'/aggiorna-ore'}>
+                <button className='new-project'>
+                    <h3>INSERISCI ORE</h3>
+                </button>
+            </Link>
             <button className='new-project' onClick={creaRapporto}>
                 <h3>CREA RAPPORTO COMPLESSIVO</h3>
             </button>

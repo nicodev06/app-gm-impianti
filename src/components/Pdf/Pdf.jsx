@@ -4,6 +4,8 @@ import { useParams } from 'react-router-dom';
 
 import { supabase } from '../../utils/supabase-client';
 
+import SignatureCanvas from "react-signature-canvas";
+
 import './pdf.css'
 
 const Pdf = () => {
@@ -14,7 +16,8 @@ const Pdf = () => {
   const [hours, setHours] = useState([]);
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
-  const signaturePad = useRef(null);
+  const [signatureUrl, setSignatureUrl] = useState(null);
+  const signaturePad = useRef();
 
   useEffect(() => {
     supabase
@@ -59,6 +62,21 @@ const Pdf = () => {
     })
   }, []);
 
+  const saveSignature = async () => {
+    const URL = signaturePad.current.getTrimmedCanvas().toDataURL("image/png");
+    const blob = await (await fetch(URL)).blob();
+    const {data, error} = await supabase.storage
+    .from('main')
+    .upload(`/signatures/${(new Date()).getTime()}`, blob)
+    const path = data.path;
+    if (!error){
+       const { data } = await supabase.storage
+       .from('main')
+       .getPublicUrl(path)
+       setSignatureUrl(data.publicUrl);
+    }
+  }
+
   if (loading){
     return (
         <div className='loading'>
@@ -70,42 +88,61 @@ const Pdf = () => {
   return (
     <div style={{margin: '1rem'}}>
         <div>
-            <section className='pdf'>
-                <div className='pdf-topbar align-items-center'>
-                    <div>
-                        <h2 style={{textTransform: 'uppercase', marginBottom: '0'}}>{project.name}</h2>
-                        <p style={{marginTop: '0.3em'}}>{project.description}</p>
+            <div className='align-items-center' style={{width: '100%', justifyContent: 'center'}}>
+                <section className='pdf'>
+                    <div className='pdf-topbar align-items-center'>
+                        <div>
+                            <h2 style={{textTransform: 'uppercase', marginBottom: '0'}}>{project.name}</h2>
+                            <p style={{marginTop: '0.3em'}}>{project.description}</p>
+                        </div>
                     </div>
-                </div>
-                <div>
-                    <h2 style={{display: 'inline', marginRight: '0.3em'}}>DATA:</h2>
-                    <span>{(new Date()).toLocaleDateString('it-IT')}</span>
-                </div>
-                <div>
-                    <h2 style={{marginBottom: '0px'}}>RISORSE UMANE</h2>
-                    {hours.map((item) => {
-                        return (
-                            <p style={{marginTop: '0.3em', marginBottom: '0.3em'}}>{item.email} ore: {item.num}</p>
-                        )
-                    })}
-                </div>
-                <div>
-                    <h2>NOTE:</h2>
-                    <p>{project.notes}</p>
-                </div>
-                <div style={{marginTop: '2em'}}>
-                    <div className='grid-images'>
-                        {images.map((item) => {
+                    <div>
+                        <h2 style={{display: 'inline', marginRight: '0.3em'}}>DATA:</h2>
+                        <span>{(new Date()).toLocaleDateString('it-IT')}</span>
+                    </div>
+                    <div>
+                        <h2 style={{marginBottom: '0px'}}>RISORSE UMANE</h2>
+                        {hours.map((item) => {
                             return (
-                                <img src={item} alt='image'/>
+                                <p style={{marginTop: '0.3em', marginBottom: '0.3em'}}>{item.email} ore: {item.num}</p>
                             )
                         })}
                     </div>
+                    <div>
+                        <h2>NOTE:</h2>
+                        <p>{project.notes}</p>
+                    </div>
+                    <div style={{marginTop: '2em'}}>
+                        <div className='grid-images'>
+                            {images.map((item) => {
+                                return (
+                                    <img src={item} alt='image'/>
+                                )
+                            })}
+                        </div>
+                    </div>
+                    {signatureUrl 
+                    ? 
+                    <img src={signatureUrl} className='signature' alt='signature'/> 
+                    :
+                    <div className='signature-pad'>
+                        <SignatureCanvas
+                        penColor="black"
+                        canvasProps={{ width: 375, height: 175 }}
+                        ref={signaturePad}
+                        />
+                        <div className='align-items-center signature-pad-buttons'>
+                            <button className='new-project' onClick={() => {signaturePad.current.clear()}}>
+                                <span>PULISCI</span>
+                            </button>
+                            <button className='new-project' onClick={saveSignature}>
+                                <span>SALVA FIRMA</span>
+                            </button>
+                        </div>
+                    </div>
+                    }
+                </section>
                 </div>
-                <div style={{marginTop: '2em'}}>
-                    <canvas ref={signaturePad}></canvas>
-                </div>
-            </section>
             <section>
                 <button className='new-project'>
                     <h2>ARCHIVIA</h2>
