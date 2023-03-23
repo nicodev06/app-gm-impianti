@@ -1,10 +1,12 @@
 import React, {useState, useEffect, useRef} from 'react'
 
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 import { supabase } from '../../utils/supabase-client';
 
 import SignatureCanvas from "react-signature-canvas";
+
+import domToPdf from 'dom-to-pdf';
 
 import './pdf.css'
 
@@ -17,7 +19,42 @@ const Pdf = () => {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [signatureUrl, setSignatureUrl] = useState(null);
+  const navigate = useNavigate();
   const signaturePad = useRef();
+  
+  const projectPathExtension = (new Date()).getTime();
+
+  const downloadPdf = (upload) => {
+    const element = document.getElementById('pdf-mockup');
+    const options = {
+        filename: `Rapporto-${project.name}-${projectPathExtension}`,
+        excludeClassNames: ['signature-pad'],
+        overrideWidth: 650
+    };
+    domToPdf(element, options, (pdf) => {
+        if (upload){
+            const blobPDF =  new Blob([ pdf.output('blob') ], { type : 'application/pdf'});
+            upload(blobPDF);
+        }
+    });
+  }
+
+  const upload = async (pdf) => {
+    const { data, error } = await supabase.storage
+    .from('main')
+    .upload(`rapporti/Rapporto-${project.name}-${projectPathExtension}`, pdf)
+    const path = !error ? data.path : null;
+    if (path){
+        const { data, error } = await supabase
+        .from('rapporti')
+        .insert({giornaliero: false, path})
+        if (!error){
+            navigate('/') // !!! Poi bisogna navigare alla pagina con la lista dei rapporti !!!
+        } else {
+            alert('Some errors occured');
+        }
+    }
+  }
 
   useEffect(() => {
     supabase
@@ -43,14 +80,14 @@ const Pdf = () => {
             .then(({data, error}) => {
                 if (!error){
                     let hours = data;
-                    const users_ids = data.map((item) => item.user_id);
+                    const user_ids = data.map((item) => item.user_id);
                     supabase.functions.invoke('list-users', {
-                        body: {users_ids}
+                        body: {user_ids}
                     }).then(({data}) => {
                         hours = hours.map((item, i) => {
                             return ({
                                 ...item,
-                                email: data.users[i].email
+                                email: data[i].user.email
                             })
                         })
                         setHours(hours);
@@ -89,7 +126,7 @@ const Pdf = () => {
     <div style={{margin: '1rem'}}>
         <div>
             <div className='align-items-center' style={{width: '100%', justifyContent: 'center'}}>
-                <section className='pdf'>
+                <section className='pdf' id='pdf-mockup'>
                     <div className='pdf-topbar align-items-center'>
                         <div>
                             <h2 style={{textTransform: 'uppercase', marginBottom: '0'}}>{project.name}</h2>
@@ -104,7 +141,7 @@ const Pdf = () => {
                         <h2 style={{marginBottom: '0px'}}>RISORSE UMANE</h2>
                         {hours.map((item) => {
                             return (
-                                <p style={{marginTop: '0.3em', marginBottom: '0.3em'}}>{item.email} ore: {item.num}</p>
+                                <p style={{marginTop: '0.3em', marginBottom: '0.3em', fontSize: '0.8em'}}>{item.email} -- {item.num} ore -- {(new Date(item.date)).toLocaleDateString('it-IT')}</p>
                             )
                         })}
                     </div>
@@ -144,10 +181,10 @@ const Pdf = () => {
                 </section>
                 </div>
             <section>
-                <button className='new-project'>
+                <button className='new-project' onClick={() => {downloadPdf(upload)}}>
                     <h2>ARCHIVIA</h2>
                 </button>
-                <button className='new-project'>
+                <button className='new-project' onClick={downloadPdf}>
                     <h2>SALVA SU DISPOSITIVO</h2>
                 </button>
             </section>

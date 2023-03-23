@@ -1,7 +1,7 @@
 .pdf {
     background-color: #fff;
     padding: 0.5em;
-    width: 375px;
+    width: 400px;
 }
 
 .pdf-topbar {
@@ -24,7 +24,7 @@
 }
 
 .grid-images img {
-    width: 100%;
+    width: 80%;
     height: auto;
 }
 
