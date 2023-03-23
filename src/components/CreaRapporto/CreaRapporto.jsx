@@ -41,7 +41,7 @@ const CreaRapporto = () => {
                     <h2>CREA RAPPORTO COMPLESSIVO</h2>
                 </button>
             </Link>
-            <Link to='/crea-rapporto-giornaliero'>
+            <Link to={`/crea-rapporto-giornaliero/${currentProject}`}>
                 <button className="new-project">
                     <h2>CREA RAPPORTO GIORNALIERO</h2>
                 </button>

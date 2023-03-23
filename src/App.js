@@ -34,7 +34,7 @@ function App() {
             <Route path='/report-ore/:worker' element={<ReportOre/>}/>
             <Route path='/aggiorna-ore' element={<UpdateHours/>}/>
             <Route path='/crea-rapporto' element={<CreaRapporto/>}/>
-            <Route path='/crea-rapporto-giornaliero' element={<CreaRapportoGiornaliero/>}/>
+            <Route path='/crea-rapporto-giornaliero/:id' element={<CreaRapportoGiornaliero/>}/>
             <Route path='/login' element={<Login/>}/>
           </Routes>
         </Layout>
