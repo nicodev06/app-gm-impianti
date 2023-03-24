@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams, Link } from 'react-router-dom';
 
 import { supabase } from '../../utils/supabase-client';
 import { selectProjectsByUser } from '../../utils/select_projects_by_user';
@@ -105,9 +105,11 @@ const ReportOre = () => {
                     <div className='app__projects-item align-items-center'>
                         <h3 style={{ fontWeight: 300}}><span style={{color: 'var(--orange-color)'}}>{project.totalHours}h</span> - {project.name}</h3>
                         <div className='align-items-center item-settings'>
-                            <button>
-                            <img src={eye} alt="settings" />
-                            </button>
+                            <Link to={`/documenti/${project.id}`}>
+                                <button>
+                                    <img src={eye} alt="settings" />
+                                </button>
+                            </Link>
                         </div>
                     </div>
                 )

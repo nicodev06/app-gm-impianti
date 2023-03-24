@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react'
 
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 
 import { supabase } from '../../utils/supabase-client';
 
@@ -21,13 +21,13 @@ const Pdf = () => {
   const [signatureUrl, setSignatureUrl] = useState(null);
   const navigate = useNavigate();
   const signaturePad = useRef();
-  
+  const [searchParams, setSearchParams] = useSearchParams();
   const projectPathExtension = (new Date()).getTime();
 
   const downloadPdf = (upload) => {
     const element = document.getElementById('pdf-mockup');
     const options = {
-        filename: `Rapporto-${project.name}-${projectPathExtension}`,
+        filename: `Rapporto ${searchParams.get('giornaliero') ? 'Giornaliero' : 'Complessivo'}-${project.name}-${projectPathExtension}`,
         excludeClassNames: ['signature-pad'],
         overrideWidth: 650
     };
@@ -42,12 +42,12 @@ const Pdf = () => {
   const upload = async (pdf) => {
     const { data, error } = await supabase.storage
     .from('main')
-    .upload(`rapporti/Rapporto-${project.name}-${projectPathExtension}`, pdf)
+    .upload(`rapporti/Rapporto${searchParams.get('giornaliero') ? 'Giornaliero' : 'Complessivo'}-${project.name}-${projectPathExtension}`, pdf)
     const path = !error ? data.path : null;
     if (path){
         const { data, error } = await supabase
         .from('rapporti')
-        .insert({giornaliero: false, path})
+        .insert({giornaliero: searchParams.get('giornaliero') ? true : false, path, project_id: id})
         if (!error){
             navigate('/') // !!! Poi bisogna navigare alla pagina con la lista dei rapporti !!!
         } else {
@@ -73,28 +73,33 @@ const Pdf = () => {
                     }
                 }));
             })();
-            supabase
-            .from('hours')
-            .select()
-            .eq('project_id', id)
-            .then(({data, error}) => {
-                if (!error){
-                    let hours = data;
-                    const user_ids = data.map((item) => item.user_id);
-                    supabase.functions.invoke('list-users', {
-                        body: {user_ids}
-                    }).then(({data}) => {
-                        hours = hours.map((item, i) => {
-                            return ({
-                                ...item,
-                                email: data[i].user.email
+            if (searchParams.get('giornaliero')){
+                setHours(JSON.parse(document.getElementById('rapporto-giornaliero-value').value));
+                setLoading(false);
+            } else {
+                    supabase
+                .from('hours')
+                .select()
+                .eq('project_id', id)
+                .then(({data, error}) => {
+                    if (!error){
+                        let hours = data;
+                        const user_ids = data.map((item) => item.user_id);
+                        supabase.functions.invoke('list-users', {
+                            body: {user_ids}
+                        }).then(({data}) => {
+                            hours = hours.map((item, i) => {
+                                return ({
+                                    ...item,
+                                    email: data[i].user.email
+                                })
                             })
+                            setHours(hours);
+                            setLoading(false);
                         })
-                        setHours(hours);
-                        setLoading(false);
-                    })
-                }
-            })
+                    }
+                })
+            }
         }
     })
   }, []);
@@ -141,7 +146,8 @@ const Pdf = () => {
                         <h2 style={{marginBottom: '0px'}}>RISORSE UMANE</h2>
                         {hours.map((item) => {
                             return (
-                                <p style={{marginTop: '0.3em', marginBottom: '0.3em', fontSize: '0.8em'}}>{item.email} -- {item.num} ore -- {(new Date(item.date)).toLocaleDateString('it-IT')}</p>
+                                <>
+                                {!searchParams.get('giornaliero')  ? <p style={{marginTop: '0.3em', marginBottom: '0.3em', fontSize: '0.8em'}}>{item.email} -- {item.num} ore -- {(new Date(item.date)).toLocaleDateString('it-IT')}</p> : <p style={{marginTop: '0.3em', marginBottom: '0.3em', fontSize: '0.8em'}}>{item.email} -- {item.hours} ore</p>}</>
                             )
                         })}
                     </div>
@@ -184,7 +190,7 @@ const Pdf = () => {
                 <button className='new-project' onClick={() => {downloadPdf(upload)}}>
                     <h2>ARCHIVIA</h2>
                 </button>
-                <button className='new-project' onClick={downloadPdf}>
+                <button className='new-project' onClick={() => {downloadPdf(() => false)}}>
                     <h2>SALVA SU DISPOSITIVO</h2>
                 </button>
             </section>

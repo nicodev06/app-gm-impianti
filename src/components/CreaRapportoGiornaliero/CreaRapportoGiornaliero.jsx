@@ -59,7 +59,7 @@ const CreaRapportoGiornaliero = () => {
             }
         }
     });
-    console.log(items);
+    document.getElementById('rapporto-giornaliero-value').value = JSON.stringify(items);
   }
   
   return (
@@ -101,9 +101,11 @@ const CreaRapportoGiornaliero = () => {
             })}    
         </div>
         <div style={{marginTop: '1rem'}}>
-            <button className="new-project" onClick={creaRapportoGiornaliero}>
-                <h2>CREA RAPPORTO GIORNALIERO</h2>
-            </button>
+            <Link to={`/progetto/${id}/pdf?giornaliero=1`} onClick={creaRapportoGiornaliero}>
+                <button className="new-project">
+                    <h2>CREA RAPPORTO GIORNALIERO</h2>
+                </button>
+            </Link>
             <p>Le note e le foto generate nel pdf vengono prese dal progetto</p>
         </div>
     </div>

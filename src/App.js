@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Layout from './components/Layout';
 import Navbar from './components/Navbar/Navbar';
@@ -15,11 +15,13 @@ import CreaRapporto from './components/CreaRapporto/CreaRapporto';
 import CreaRapportoGiornaliero from './components/CreaRapportoGiornaliero/CreaRapportoGiornaliero';
 import Login from './components/Auth/Login';
 import Pdf from './components/Pdf/Pdf';
+import Documenti from './components/Documenti/Documenti';
  
 function App() {
 
   return (
     <>
+      <input type='hidden' value='' id='rapporto-giornaliero-value'/>
       <BrowserRouter>
         <Navbar/>
         <Layout>
@@ -35,6 +37,7 @@ function App() {
             <Route path='/aggiorna-ore' element={<UpdateHours/>}/>
             <Route path='/crea-rapporto' element={<CreaRapporto/>}/>
             <Route path='/crea-rapporto-giornaliero/:id' element={<CreaRapportoGiornaliero/>}/>
+            <Route path='/documenti/:id' element={<Documenti/>}/>
             <Route path='/login' element={<Login/>}/>
           </Routes>
         </Layout>
