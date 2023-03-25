@@ -1,6 +1,6 @@
 import { supabase } from "./supabase-client";
 
-export const selectProjectsByUser = (user, setter) => {
+export const selectProjectsByUser = (user, setter, archived=null) => {
     supabase
     .from('holdings')
     .select('project_id')
@@ -10,6 +10,7 @@ export const selectProjectsByUser = (user, setter) => {
         supabase
         .from('projects')
         .select()
+        .is('status', archived)
         .in('id', projects)
         .then(({data, error}) => {
             if (!error){

@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { Link, useLocation } from 'react-router-dom'
+
+import { supabase } from '../../utils/supabase-client';
 
 // style
 import './Navbar.css';
@@ -13,6 +15,14 @@ const Navbar = () => {
 
   const [isOpen, setIsOpen] = useState(false);
   const { pathname } = useLocation();
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      const {data: {user}} = await supabase.auth.getUser();
+      setCurrentUser(user);
+    })()
+  }, [])
 
   if (pathname === '/login'){
     return <></>
@@ -28,13 +38,15 @@ const Navbar = () => {
                 <img src={CloseNavbarIcon} alt='navbar-icon' className='app__navbar-icon delete' onClick={() => {setIsOpen(false)}}/>
             </div>
             {sections.map((section) => {
-              return (
-                <Link to={section.path} onClick={() => {setIsOpen(false)}}>
-                  <div className='app__navbar app__navbar-item align-items-center'>
-                    <h3 className={`${pathname === section.path ? "selected" : ""}`}>{section.display}</h3>
-                  </div>
-                </Link>
-              )
+              if (section.public || currentUser?.user_metadata?.is_admin){
+                return (
+                  <Link to={section.path} onClick={() => {setIsOpen(false)}}>
+                    <div className='app__navbar app__navbar-item align-items-center'>
+                      <h3 className={`${pathname === section.path ? "selected" : ""}`}>{section.display}</h3>
+                    </div>
+                  </Link>
+                )
+              }
             })}
         </div>
     </>

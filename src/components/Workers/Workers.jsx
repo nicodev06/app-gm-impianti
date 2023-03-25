@@ -37,7 +37,7 @@ const Workers = () => {
   }
 
   const handleClose = () => {
-    supabase.functions.invoke('list-users', {}).then(({ data }) => {
+    supabase.functions.invoke('list-users', {body: {}}).then(({ data }) => {
       setWorkers(data?.users);
       setShowPopUp(false);
     });

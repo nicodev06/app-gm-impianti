@@ -1,31 +1,38 @@
 export default [
     {
         display: 'HOME',
-        path: '/'
+        path: '/', 
+        public: true,
     },
     {
         display: 'CREA NUOVO PROGETTO',
-        path: '/nuovo-progetto'
+        path: '/nuovo-progetto',
+        public: false,
     },
     {
         display: 'LAVORATORI',
-        path: '/lavoratori'
+        path: '/lavoratori',
+        public: false,
     },
     {
         display: 'ARCHIVIO PROGETTI',
-        path: '/archivio-progetti'
+        path: '/archivio-progetti',
+        public: false,
     },
     {
         display: 'I MIEI PROGETTI',
-        path: '/i-miei-progetti'
+        path: '/i-miei-progetti',
+        public: true
     },
     {
         display: 'LE MIE BUSTE PAGA',
-        path: '/buste-paga'
+        path: '/buste-paga',
+        public: true
     },
     {
         display: 'IMPOSTAZIONI',
-        path: '/impostazioni'
+        path: '/impostazioni',
+        public: true
     },
     
 ]

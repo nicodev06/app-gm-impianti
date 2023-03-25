@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 
 import { Link } from 'react-router-dom';
 
@@ -10,6 +10,7 @@ import { supabase } from '../../utils/supabase-client';
 import { selectProjectsByUser } from '../../utils/select_projects_by_user';
 
 import Popup from '../Popup';
+import { Context } from './HomepageContext';
 
 const UpdateProject = ({ project, setProjects, handleClose }) => {
 
@@ -41,7 +42,7 @@ const UpdateProject = ({ project, setProjects, handleClose }) => {
     setLoading(true);
     supabase
     .from('projects')
-    .update({status: 'archived'})
+    .update({status: true})
     .eq('id', project.id)
     .then(({error}) => {
       if (!error){
@@ -85,7 +86,7 @@ const Projects = () => {
   const [projects, setProjects] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const [currentProject, setCurrentProject] = useState({});
-  const [archived, setArchived] = useState(null);
+  const { archived } = useContext(Context);
 
   useEffect(() => {
   supabase.auth.getUser()
@@ -99,10 +100,10 @@ const Projects = () => {
         setProjects(data);
       })
     } else {
-      selectProjectsByUser(user, setProjects)
+      selectProjectsByUser(user, setProjects, archived) //archiviati o no
     }
   })
-  }, [showPopup])
+  }, [showPopup, archived])
 
 
   if (projects.length === 0){

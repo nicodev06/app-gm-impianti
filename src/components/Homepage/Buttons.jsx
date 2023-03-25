@@ -1,15 +1,20 @@
-import React from 'react'
+import React, {useContext} from 'react'
 
 import { Link } from 'react-router-dom';
 
+import { Context } from './HomepageContext';
+
 const Buttons = () => {
+
+  const { setArchived } = useContext(Context);
+    
   return (
     <div className='projects__buttons'>
         <section className='first-section'>
-            <button>
+            <button onClick={() => {setArchived(null)}}>
                 <h3>TUTTI I PROGETTI</h3>
             </button>
-            <button>
+            <button onClick={() => {setArchived(true)}}>
                 <h3>ARCHIVIATI</h3>
             </button>
         </section>

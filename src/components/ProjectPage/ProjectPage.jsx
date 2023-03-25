@@ -149,9 +149,11 @@ const ProjectPage = () => {
             <button className='new-project' onClick={creaRapporto}>
                 <h3>CREA RAPPORTO COMPLESSIVO</h3>
             </button>
-            <button className='new-project'>
-                <h3>CREA RAPPORTO GIORNALIERO</h3>
-            </button>
+            <Link to={`/crea-rapporto-giornaliero/${id}`}>
+                <button className='new-project'>
+                    <h3>CREA RAPPORTO GIORNALIERO</h3>
+                </button>
+            </Link>
         </div>
     </div>
   )

@@ -1,7 +1,12 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Buttons from './Buttons';
 
 import { Link } from 'react-router-dom';
+
+import HomepageContext from './HomepageContext';
+
+import { supabase } from '../../utils/supabase-client';
+
 
 // style
 import './Homepage.css';
@@ -10,11 +15,22 @@ import './Homepage.css';
 import Projects from './Projects';
 
 const Homepage = () => {
+
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      const {data: {user}} = await supabase.auth.getUser();
+      setCurrentUser(user);
+    })()
+  }, [])
+
   return (
-    <div className='app__layout app__homepage'>
+    <HomepageContext>
+      <div className='app__layout app__homepage'>
         <div className='app__homepage-topbar align-items-center'>
             <h2>PROGETTI IN CORSO</h2>
-            <div className='align-items-center'>
+            <div className='align-items-center' style={{display: !currentUser?.user_metadata?.is_admin && 'none'}}>
                 <Link to='nuovo-progetto'>
                   <button className='add' style={{border: 'none'}}>+</button>
                 </Link>
@@ -23,7 +39,9 @@ const Homepage = () => {
         </div>
         <Projects/>
         <Buttons/>
-    </div>
+      </div>
+    </HomepageContext>
+
   )
 }
 

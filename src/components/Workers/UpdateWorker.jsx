@@ -9,7 +9,7 @@ const Update = ({ currentWorker, handleClose, setCurrentStep }) => {
     const [password, setPassword] = useState("");
 
     const update = () => {
-        if (email.length > 0 && password.length > 0){
+        if (email.length > 0 || password.length > 0){
             supabase.functions.invoke('update-user', {
                 body: {
                     id: currentWorker?.id, 
