@@ -10,6 +10,8 @@ import domToPdf from 'dom-to-pdf';
 
 import './pdf.css'
 
+import logo from '../../assets/logo-app-gm.png';
+
 const Pdf = () => {
 
   const { id } = useParams();  
@@ -132,11 +134,12 @@ const Pdf = () => {
         <div>
             <div className='align-items-center' style={{width: '100%', justifyContent: 'center'}}>
                 <section className='pdf' id='pdf-mockup'>
-                    <div className='pdf-topbar align-items-center'>
+                    <div className='pdf-topbar align-items-center' style={{justifyContent: 'space-between'}}>
                         <div>
                             <h2 style={{textTransform: 'uppercase', marginBottom: '0'}}>{project.name}</h2>
                             <p style={{marginTop: '0.3em'}}>{project.description}</p>
                         </div>
+                        <img src={logo} alt={logo} width={50} height={50}/>
                     </div>
                     <div>
                         <h2 style={{display: 'inline', marginRight: '0.3em'}}>DATA:</h2>

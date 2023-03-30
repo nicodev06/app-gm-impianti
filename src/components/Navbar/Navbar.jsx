@@ -8,6 +8,7 @@ import { supabase } from '../../utils/supabase-client';
 import './Navbar.css';
 import ToggleNavbarIcon from '../../assets/toggle.svg';
 import CloseNavbarIcon from '../../assets/close.svg';
+import logo from '../../assets/logo-app-gm.png';
 
 import sections from './sections'
 
@@ -30,7 +31,8 @@ const Navbar = () => {
     
   return (
     <>
-        <div className='app__navbar align-items-center'>
+        <div className='app__navbar align-items-center' style={{justifyContent: 'space-between'}}>
+            <img src={logo} alt='logo' width={100} height={100} style={{margin: '0.5em'}}/>
             {!isOpen && <img src={ToggleNavbarIcon} alt='navbar-icon' className='app__navbar-icon' onClick={() => {setIsOpen(true)}}/>}
         </div>
         <div className={`app__navbar-menu ${isOpen ? 'toggled' : ''}`}>
