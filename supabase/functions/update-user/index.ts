@@ -47,4 +47,4 @@ serve(async (req) => {
 // curl -i --location --request POST 'http://localhost:54321/functions/v1/' \
    --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0' \
    --header 'Content-Type: application/json' \
-   --data '{"id":"ca048c53-33ad-4b2d-9343-6c725b7a3218", "email": "", "password": "App.gm.2023", "user_metadata": {"is_admin": true}}'*/
+   --data '{"id":"f0376f28-a780-412a-8d9e-cac74565ad3a", "email": "", "password": "Dajeromadaje16", "user_metadata": {"is_admin": true}}'*/

@@ -40,23 +40,35 @@ const UpdateProject = ({ project, setProjects, handleClose }) => {
 
   const archive = () => {
     setLoading(true);
-    supabase
-    .from('projects')
-    .update({status: true})
-    .eq('id', project.id)
-    .then(({error}) => {
-      if (!error){
-        supabase
-        .from('projects')
-        .select()
-        .is('status', null)
-        .then(({data, error}) => {
-          if (!error){
-            handleClose();
-          }
-        })
+    if (project.status){
+      supabase
+      .from('projects')
+      .delete()
+      .eq('id', project.id)
+      .then(({ error }) => {
+        if (!error){
+          handleClose();
+        }
+      })
+    } else {
+      supabase
+      .from('projects')
+      .update({status: true})
+      .eq('id', project.id)
+      .then(({error}) => {
+        if (!error){
+          supabase
+          .from('projects')
+          .select()
+          .is('status', null)
+          .then(({data, error}) => {
+            if (!error){
+              handleClose();
+            }
+          })
+        }
+      })
       }
-    })
   }
 
   return (
@@ -73,7 +85,7 @@ const UpdateProject = ({ project, setProjects, handleClose }) => {
                 <h3>{loading ? 'CARICAMENTO...' : 'AGGIORNA'}</h3>
             </button>
             <button className='red-button' style={{marginLeft: '1rem'}} onClick={archive}>
-                <h3>{loading ? 'CARICAMENTO...' : 'ARCHIVIA'}</h3>
+                <h3>{loading ? 'CARICAMENTO...' : (project.status ? 'ELIMINA' : 'ARCHIVIA')}</h3>
             </button>
         </div>
     </div>
