@@ -62,15 +62,15 @@ const Workers = () => {
           return (
             <div className='app__projects-item align-items-center'>
               <div style={{display: 'block',width: '50%', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}>
-                <h3 style={{fontWeight: 300, width: '100%'}}>{worker.email}</h3>
+                <h3 style={{fontWeight: 300, width: '100%'}}>{worker.user_metadata.first_name} {worker.user_metadata.last_name}</h3>
               </div>
               <div className='align-items-center item-settings'>
-                  <Link to={`/report-ore/${worker.id}?email=${worker.email}`}>
+                  <Link to={`/report-ore/${worker.id}?first_name=${worker.user_metadata.first_name}&last_name=${worker.user_metadata.last_name}`}>
                     <button>
                       <img src={clock} alt="clock" />
                     </button>
                   </Link>
-                  <Link to={`/buste-paga/${worker.id}?email=${worker.email}`}>
+                  <Link to={`/buste-paga/${worker.id}?first_name=${worker.user_metadata.first_name}&last_name=${worker.user_metadata.last_name}`}>
                     <button>
                       <img src={euro} alt="euro" />
                     </button>

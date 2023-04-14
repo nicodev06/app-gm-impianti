@@ -59,6 +59,7 @@ const CreaRapportoGiornaliero = () => {
             }
         }
     });
+    console.log(items);
     document.getElementById('rapporto-giornaliero-value').value = JSON.stringify(items);
   }
   
@@ -75,7 +76,7 @@ const CreaRapportoGiornaliero = () => {
                         <div className='align-items-center' style={{width: '75%'}}>
                             <Checkbox handler={checkboxHandler} val={user}/>
                             <div style={{display: 'block',width: '100%', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}>
-                                <h3 style={{fontWeight: 400, marginLeft: '0.5rem'}}>{user.email}</h3>
+                                <h3 style={{fontWeight: 400, marginLeft: '0.5rem'}}>{user.user_metadata.first_name} {user.user_metadata.last_name}</h3>
                             </div>
                         </div>
                         <input 

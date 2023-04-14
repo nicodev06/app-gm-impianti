@@ -7,6 +7,8 @@ const Update = ({ currentWorker, handleClose, setCurrentStep }) => {
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState(currentWorker?.email);
     const [password, setPassword] = useState("");
+    const [firstName, setFirstName] = useState(currentWorker?.user_metadata.first_name);
+    const [lastName, setLastName] = useState(currentWorker?.user_metadata.last_name);
 
     const update = () => {
         if (email.length > 0 || password.length > 0){
@@ -15,7 +17,11 @@ const Update = ({ currentWorker, handleClose, setCurrentStep }) => {
                     id: currentWorker?.id, 
                     email, 
                     password, 
-                    user_metadata: currentWorker?.user_metadata
+                    user_metadata: {
+                        ...currentWorker?.user_metadata,
+                        first_name: firstName,
+                        last_name: lastName
+                    }
                 },
             }).then(() => {
                 setLoading(false);
@@ -33,6 +39,10 @@ const Update = ({ currentWorker, handleClose, setCurrentStep }) => {
             <div>
                 <p>Email:</p>
                 <input type="email" placeholder='email' className='login-input' value={email} onChange={(e) => {setEmail(e.target.value)}}/>
+                <p>Nome:</p>
+                <input type="text" placeholder='nome' className='login-input' onChange={(e) => {setFirstName(e.target.value)}} value={firstName}/>
+                <p>Cognome:</p>
+                <input type="text" placeholder='cognome' className='login-input' onChange={(e) => {setLastName(e.target.value)}} value={lastName}/>
                 <p>Password:</p>
                 <input type="password" placeholder='password' className='login-input' onChange={(e) => {setPassword(e.target.value)}}/>
             </div>

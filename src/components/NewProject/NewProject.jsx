@@ -75,7 +75,7 @@ const NewProject = () => {
                 return (
                     <div className='new-project-checkbox' style={{marginTop: '1rem'}}>
                         <Checkbox handler={checkboxHandler} val={worker}/>
-                        <h3 style={{fontWeight: 400, marginLeft: '0.5rem'}}>{worker.email}</h3>
+                        <h3 style={{fontWeight: 400, marginLeft: '0.5rem'}}>{worker.user_metadata.first_name} {worker.user_metadata.last_name}</h3>
                     </div>
                 )
             })}

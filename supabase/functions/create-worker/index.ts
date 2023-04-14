@@ -15,11 +15,12 @@ serve(async (req) => {
   const serviceRoleKey : string = Deno.env.get("SERVICE_ROLE_KEY") || "";
   const supabase = createClient("https://asmmbkocsiqdzmghrtwz.supabase.co", serviceRoleKey); 
 
-  const {email, password} = await req.json()
+  const {email, password, user_metadata} = await req.json()
   
   const {data, error} = await supabase.auth.admin.createUser({
     email,
     password,
+    user_metadata,
     email_confirm: true
   });
 
@@ -41,4 +42,4 @@ serve(async (req) => {
 curl -i --location --request POST 'http://localhost:54321/functions/v1/' \
   --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0' \
   --header 'Content-Type: application/json' \
-  --data '{"email":"test@testmail.com", "password": "Lucasuca"}'*/
+  --data '{"email":"test@testmail.com", "password": "Lucasuca", "user_metadata": {"first_name": "Nicolò", "last_name": "Teseo"}}'*/

@@ -93,7 +93,7 @@ const ProjectPage = () => {
             <h2 style={{textTransform: 'uppercase'}}>{project.name}</h2>
             <h4 style={{fontWeight: 400, marginTop: '0px'}}>{project.description}</h4>
             <h2>LAVORATORI: </h2>
-            <h4 style={{fontWeight: 400, marginTop: '0px'}}>{workers.map((item) => <span>{item.user.email}, </span>)}</h4>
+            <h4 style={{fontWeight: 400, marginTop: '0px'}}>{workers.map((item) => <span>{item.user.user_metadata.first_name} {item.user.user_metadata.last_name}, </span>)}</h4>
         </div>
         <div className='app__new-project-inputs'>
             <textarea placeholder='Inserisci note testuali'  style={{height: '20vh'}} value={notes} onChange={(e) => {setNotes(e.target.value)}}/>

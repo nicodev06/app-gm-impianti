@@ -93,7 +93,9 @@ const Pdf = () => {
                             hours = hours.map((item, i) => {
                                 return ({
                                     ...item,
-                                    email: data[i].user.email
+                                    email: data[i].user.email,
+                                    firstName: data[i].user.user_metadata.first_name,
+                                    lastName: data[i].user.user_metadata.last_name
                                 })
                             })
                             setHours(hours);
@@ -150,7 +152,7 @@ const Pdf = () => {
                         {hours.map((item) => {
                             return (
                                 <>
-                                {!searchParams.get('giornaliero')  ? <p style={{marginTop: '0.3em', marginBottom: '0.3em', fontSize: '0.8em'}}>{item.email} -- {item.num} ore -- {(new Date(item.date)).toLocaleDateString('it-IT')}</p> : <p style={{marginTop: '0.3em', marginBottom: '0.3em', fontSize: '0.8em'}}>{item.email} -- {item.hours} ore</p>}</>
+                                {!searchParams.get('giornaliero')  ? <p style={{marginTop: '0.3em', marginBottom: '0.3em', fontSize: '0.8em'}}>{item.firstName} {item.lastName} -- {item.num} ore -- {(new Date(item.date)).toLocaleDateString('it-IT')}</p> : <p style={{marginTop: '0.3em', marginBottom: '0.3em', fontSize: '0.8em'}}>{item.user_metadata.first_name} {item.user_metadata.last_name} -- {item.hours} ore</p>}</>
                             )
                         })}
                     </div>

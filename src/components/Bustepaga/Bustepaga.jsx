@@ -129,7 +129,7 @@ const Bustepaga = () => {
   return (
     <div className='app__buste-paga'>
         <div>
-            <h2 style={{textTransform: 'uppercase'}}>{searchParams.get('email') ? "BUSTE PAGA - " + searchParams.get('email') : "LE MIE BUSTE PAGA"}</h2>
+            <h2 style={{textTransform: 'uppercase'}}>{searchParams.get('first_name') ? "BUSTE PAGA - " + searchParams.get('first_name') +  " " + searchParams.get('last_name') : "LE MIE BUSTE PAGA"}</h2>
         </div>
         <div className='app__projects'>
             {loading 
