@@ -12,7 +12,8 @@ const Login = () => {
 
   supabase.auth.onAuthStateChange(async (event) => {
     if (event !== "SIGNED_OUT") {
-        navigate('/')
+        navigate('/');
+        window.location.reload();
     }
   })
     

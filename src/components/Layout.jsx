@@ -6,13 +6,19 @@ import { supabase } from '../utils/supabase-client';
 
 const Layout = ({ children }) => {
 
-  const navigate = useNavigate();  
+  const navigate = useNavigate();
+  
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
         if (data.session === null){
             navigate('/login');
         }
+    })
+    supabase.auth.onAuthStateChange(async (event) => {
+      if (event === "SIGNED_OUT") {
+          window.location.reload()
+      }
     })
   }, [])
     

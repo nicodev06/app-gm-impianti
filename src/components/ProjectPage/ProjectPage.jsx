@@ -41,6 +41,13 @@ const ProjectPage = () => {
     navigate(`/progetto/${id}/pdf`);
   }
 
+  const saveProject = async () => {
+    const paths = await uploadImages();
+    await supabase.from('projects').update({images: [...previousImages, ...paths]}).eq('id', id);
+    await supabase.from('projects').update({notes}).eq('id', id);
+    alert('Progetto salvato correttamente');
+  }
+
   useEffect(() => {
     supabase
     .from('projects')
@@ -141,6 +148,9 @@ const ProjectPage = () => {
             </div>
         </div>
         <div style={{marginTop: '1rem'}}>
+            <button className='new-project' onClick={saveProject}>
+                <h3>SALVA</h3>
+            </button>
             <Link to={'/aggiorna-ore'}>
                 <button className='new-project'>
                     <h3>INSERISCI ORE</h3>

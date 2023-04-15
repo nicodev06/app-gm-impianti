@@ -7,6 +7,8 @@ import { supabase } from '../../utils/supabase-client';
 import { saveAs } from 'file-saver';
 
 import eye from '../../assets/eye.svg';
+import deleteIcon from '../../assets/delete.svg';
+
 
 import './Bustepaga.css';
 
@@ -41,7 +43,7 @@ const Bustepaga = () => {
         const currentDate = new Date();
         const currentYear = currentDate.getFullYear();
         const currentUserId = currentUser.id;
-        const path = `buste-paga/${currentUserId}+${currentMonth}+${currentYear}.pdf`;
+        const path = `buste-paga/${currentUserId}+${currentMonth}+${currentYear}+${(new Date()).getTime()}.pdf`;
         supabase.storage
         .from('main')
         .upload(path, file)
@@ -87,7 +89,7 @@ const Bustepaga = () => {
             setCurrentUser(user);
             supabase
             .from('payrolls')
-            .select('month, path')
+            .select('id, month, path')
             .eq('user_id', user.id)
             .eq('year', new Date().getFullYear())
             .order('month', true)
@@ -107,7 +109,7 @@ const Bustepaga = () => {
             setCurrentUser(data[0]?.user);
             supabase
             .from('payrolls')
-            .select('month, path')
+            .select('id, month, path')
             .eq('user_id', data[0]?.user.id)
             .eq('year', new Date().getFullYear())
             .order('month', true)
@@ -139,13 +141,24 @@ const Bustepaga = () => {
             </div>
             :
             (
-                payrolls.map(({month, path}) => 
+                payrolls.map(({id, month, path}) => 
                     <div className='app__projects-item align-items-center'>
                     <h3 style={{ fontWeight: 300}}>{months[month]}</h3>
                     <div className='align-items-center item-settings'>
                         <button onClick={() => {downloadBustaPaga(path)}}>
                             <img src={eye} alt="clock" />
                         </button>
+                        {userLoggedIn?.user_metadata?.is_admin && 
+                            <button onClick={async () => {
+                                await supabase
+                                .from('payrolls')
+                                .delete()
+                                .eq('id', id)
+                                window.location.reload();
+                            }}>
+                                <img src={deleteIcon} alt="delete" />
+                            </button>
+                        }
                     </div>
                 </div>
                 )

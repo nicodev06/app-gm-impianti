@@ -32,7 +32,6 @@ const NewProject = () => {
         .insert({name, description})
         .select()
         .then(({data, error}) => {
-            console.log(data);
             if (!error){
                 const entries = selected.map((item) => {
                     return {
@@ -40,6 +39,10 @@ const NewProject = () => {
                         project_id: data[0]?.id
                     }
                 });
+                const adminUser = workers.find((item) => item.user_metadata.is_admin);
+                if (!entries.find((item) => item.user_id === adminUser.id)){
+                    entries.push({user_id: adminUser.id, project_id: data[0].id});
+                }
                 supabase
                 .from('holdings')
                 .insert(entries)

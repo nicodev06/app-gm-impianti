@@ -41,15 +41,24 @@ const Navbar = () => {
             </div>
             {sections.map((section) => {
               if (section.public || currentUser?.user_metadata?.is_admin){
-                return (
-                  <Link to={section.path} onClick={() => {setIsOpen(false)}}>
-                    <div className='app__navbar app__navbar-item align-items-center'>
-                      <h3 className={`${pathname === section.path ? "selected" : ""}`}>{section.display}</h3>
-                    </div>
-                  </Link>
-                )
+                if (!(currentUser?.user_metadata?.is_admin && section.path === '/buste-paga')){
+                  return (
+                    <Link to={section.path} onClick={() => {setIsOpen(false)}}>
+                      <div className='app__navbar app__navbar-item align-items-center'>
+                        <h3 className={`${pathname === section.path ? "selected" : ""}`}>{section.display}</h3>
+                      </div>
+                    </Link>
+                  )
+                }
               }
             })}
+            <div 
+            className='app__navbar app__navbar-item align-items-center'
+            role='button'
+            onClick={() => {supabase.auth.signOut()}}
+            >
+              <h3>ESCI</h3>
+            </div>
         </div>
     </>
   )
