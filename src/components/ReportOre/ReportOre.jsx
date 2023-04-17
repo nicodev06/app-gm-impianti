@@ -80,7 +80,7 @@ const ReportOre = () => {
   return (
     <div className='app__report-ore'>
         <div>
-            <h2 style={{textTransform: 'uppercase'}}>REPORT ORE - {searchParams.get('first_name')} {searchParams.get('last_name')}</h2>
+            <h2 style={{textTransform: 'uppercase'}}>BUSTE PAGA - {searchParams.get('first_name')} {searchParams.get('last_name')}</h2>
         </div>
         <div className='app__projects'>
             {payrolls.map((payroll) => {

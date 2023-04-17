@@ -46,6 +46,17 @@ const ProjectPage = () => {
     await supabase.from('projects').update({images: [...previousImages, ...paths]}).eq('id', id);
     await supabase.from('projects').update({notes}).eq('id', id);
     alert('Progetto salvato correttamente');
+    window.location.reload(); // previous images corresponds 
+  }
+
+  const deletePreviousImage = async (path) => {
+    setPreviousUrl(prev => prev.filter((item) => item.path != path))
+    await supabase.from('projects').update({images: [...previousImages.filter((item) => item != path)]}).eq('id', id);
+    setPreviousImages(prev => prev.filter((item) => item != path));
+  }
+
+  const deleteCurrentImage = (i) => {
+    setImages((prev) => prev.filter((item) => item.name != i.name));
   }
 
   useEffect(() => {
@@ -61,9 +72,12 @@ const ProjectPage = () => {
             (async () => {
                 setPreviousUrl((await Promise.all(data[0].images.map(async (item) => {
                     return supabase.storage.from('main').getPublicUrl(item);
-                }))).map((item) => {
+                }))).map((item, i) => {
                     if (!item.error){
-                        return item.data.publicUrl
+                        return {
+                            url: item.data.publicUrl,
+                            path: data[0].images[i] 
+                        }
                     }
                 }));
             })();
@@ -120,6 +134,7 @@ const ProjectPage = () => {
                 </div>
                 {previousUrl.map(((image) => {
                     return (
+                        <>
                         <div>
                             <img
                             style={{
@@ -127,13 +142,22 @@ const ProjectPage = () => {
                                 height: 'auto',
                                 marginLeft: '0.5em'
                             }} 
-                            src={image} 
+                            src={image.url} 
                             alt="image" />
                         </div>
+                        <div 
+                        className='delete-icon'
+                        role='button'
+                        onClick={() => {deletePreviousImage(image.path)}}
+                        >
+                            <span>x</span>
+                        </div>
+                        </>
                     )
                 }))}
                 {images.map((image) => {
                     return (
+                        <>
                         <div>
                             <img 
                             style={{
@@ -143,6 +167,14 @@ const ProjectPage = () => {
                             }}
                             src={URL.createObjectURL(image)} alt="image"/>
                         </div>
+                        <div 
+                        className='delete-icon'
+                        role='button'
+                        onClick={() => {deleteCurrentImage(image)}}
+                        >
+                            <span>x</span>
+                        </div>
+                        </>
                     )
                 })}
             </div>

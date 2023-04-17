@@ -16,28 +16,45 @@ const UpdateHours = () => {
   const [currentUser, setCurrentUser] = useState({});
   const navigate = useNavigate(); 
 
-  const add = () => {
+  const add = async () => {
     if (projectId && date && (num > 0)){
       const formattedDate = new Date(date);
       const ISOFormattedDate = formattedDate.toISOString();
       const month = formattedDate.getMonth();
       const year = formattedDate.getFullYear();
-      supabase
+      const {data, error} = await supabase
       .from('hours')
-      .insert([{
-        user_id: currentUser.id,
-        project_id: projectId,
-        date: ISOFormattedDate,
-        month,
-        num,
-        year
-      }])
-      .then(({error}) => {
-        if (!error){
-          alert("Ore aggiunte correttamente!")
-          navigate('/');
+      .select()
+      .eq('date', date)
+      if (data.length > 0){
+        supabase
+        .from('hours')
+        .update({num: parseInt(data[0].num) + parseInt(num)})
+        .eq('date', date)
+        .then(({error}) => {
+          if (!error){
+            alert("Ore aggiunte correttamente!")
+            navigate('/');
+          }
+        })
+      } else {
+        supabase
+        .from('hours')
+        .insert([{
+          user_id: currentUser.id,
+          project_id: projectId,
+          date: ISOFormattedDate,
+          month,
+          num,
+          year
+        }])
+        .then(({error}) => {
+          if (!error){
+            alert("Ore aggiunte correttamente!")
+            navigate('/');
+          }
+        })
         }
-      })
     }
   }
 

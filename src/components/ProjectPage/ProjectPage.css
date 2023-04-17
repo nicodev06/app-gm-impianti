@@ -31,3 +31,25 @@
     overflow-x: auto;
     align-items: center;
 }
+
+.delete-icon {
+    height: 1.2em;
+    width: 1.2em;
+    background-color: #343534;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    position: relative;
+    bottom: 8.3vw;
+    right: 1.5vw;
+}
+
+.delete-icon span {
+    font-size: 1.2em;
+    padding: 0.6em;
+}
+
+.delete-icon:hover {
+    cursor: pointer;
+}
