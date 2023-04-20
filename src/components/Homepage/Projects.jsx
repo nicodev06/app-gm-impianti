@@ -12,13 +12,41 @@ import { selectProjectsByUser } from '../../utils/select_projects_by_user';
 import Popup from '../Popup';
 import { Context } from './HomepageContext';
 
+import Checkbox from '../Checkbox';
+
 const UpdateProject = ({ project, setProjects, handleClose }) => {
 
   const [name, setName] = useState(project.name);
   const [loading, setLoading] = useState(false);
+  const [holdings, setHoldings] = useState([]);
+  const [workers, setWorkers] = useState([]);
+
+  const updateUsers = async () => {
+    const toAdd = [];
+    const toRemove = [];
+    workers.forEach((item) => {
+        if (item.in_project){
+          if (!holdings.includes(item.id)){
+            toAdd.push({user_id: item.id, project_id: project.id})
+          }
+        } else {
+          if (holdings.includes(item.id)){
+            toRemove.push(item.id)
+          }
+        }
+    })
+    await supabase
+    .from('holdings')
+    .insert(toAdd)
+    await supabase
+    .from('holdings')
+    .delete()
+    .in('user_id', toRemove)
+  }
 
   const updateName = () => {
     setLoading(true);
+    updateUsers();
     supabase
     .from('projects')
     .update({name})
@@ -71,6 +99,45 @@ const UpdateProject = ({ project, setProjects, handleClose }) => {
       }
   }
 
+  useEffect(() => {
+    supabase
+    .from('holdings')
+    .select('user_id')
+    .eq('project_id', project.id)
+    .then(({ data, error }) => {
+      if (!error){
+        const holdings = data.map((item) => item.user_id);
+        setHoldings(holdings)
+        supabase.functions.invoke('list-users', {
+          body: {}
+        }).then(({ data }) => {
+          setWorkers(data?.users.map((item) => {
+            return {
+              ...item,
+              in_project: holdings.includes(item.id)
+            }
+          }));
+        })
+      }
+    })
+  }, [])
+
+
+  console.log(workers); 
+
+  const checkboxHandler = (isActive, val) => {
+    setWorkers((prev) => prev.map((item) => {
+      if (item.id == val){
+        return {
+          ...item,
+          in_project: isActive
+        }
+      } else {
+        return item
+      }
+    }))
+  }
+
   return (
     <div className='create-worker'>
         <div className='align-items-center' style={{borderBottom: '1px solid var(--gray-color)'}}>
@@ -79,6 +146,17 @@ const UpdateProject = ({ project, setProjects, handleClose }) => {
         <div>
             <p>Nome progetto</p>
             <input type="text" placeholder='Nome progetto' className='login-input' value={name} onChange={(e) => {setName(e.target.value)}}/>
+        </div>
+        <div>
+            <h2 style={{color: '#fff', marginBottom: 0, marginTop: '1.5rem'}}>LAVORATORI</h2>
+            {workers.map((worker) => {
+                return (
+                    <div className='new-project-checkbox' style={{marginTop: '1rem'}}>
+                        <Checkbox activeDefault={worker.in_project} val={worker.id} handler={checkboxHandler}/>
+                        <h3 style={{fontWeight: 400, marginLeft: '0.5rem'}}>{worker.user_metadata.first_name} {worker.user_metadata.last_name}</h3>
+                    </div>
+                )
+            })}
         </div>
         <div className='align-items-center' style={{marginTop: '2rem'}}>
             <button className='green-button' onClick={updateName}>

@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 
-const Checkbox = ({ handler, val }) => {
+const Checkbox = ({ handler, val, activeDefault }) => {
 
-  const [isActive, setIsActive] = useState(false);
+  const [isActive, setIsActive] = useState(activeDefault ? true : false);
     
   return (
     <button className={`checkbox ${isActive ? 'active' : 'disabled'}`} onClick={() => {
