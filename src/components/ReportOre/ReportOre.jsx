@@ -11,6 +11,8 @@ import eye from '../../assets/eye.svg';
 
 import { saveAs } from 'file-saver';
 
+import Report from './Report';
+
 import './ReportOre.css';
 
 const ReportOre = () => {
@@ -115,6 +117,7 @@ const ReportOre = () => {
                 )
             })}            
         </div>
+        <Report/>
     </div>
   )
 }
