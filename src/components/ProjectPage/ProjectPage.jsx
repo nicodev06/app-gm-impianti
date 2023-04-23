@@ -150,7 +150,7 @@ const ProjectPage = () => {
                         role='button'
                         onClick={() => {deletePreviousImage(image.path)}}
                         >
-                            <span>x</span>
+                            <span>-</span>
                         </div>
                         </>
                     )
@@ -172,7 +172,7 @@ const ProjectPage = () => {
                         role='button'
                         onClick={() => {deleteCurrentImage(image)}}
                         >
-                            <span>x</span>
+                            <span>-</span>
                         </div>
                         </>
                     )
