@@ -4,12 +4,14 @@ import { useSearchParams, useParams } from 'react-router-dom';
 
 import { supabase } from '../../utils/supabase-client';
 
+import mesi from '../../utils/months.js';
+
 const Report = () => {
 
   const [searchParams, _] = useSearchParams();
   const { worker } = useParams();
   const [report, setReport] = useState([]);
-
+  const [months, setMonths] = useState([]);  
 
   
   useEffect(() => {
@@ -17,7 +19,9 @@ const Report = () => {
     .from('hours')
     .select()
     .eq('user_id', worker)
+    .order('date')
     .then(async ({data, error}) => {
+        console.log(data);
         if (!error){
             const hours = [];
             for (let item of data) {
@@ -45,6 +49,22 @@ const Report = () => {
                 }
             }
           setReport(hours)
+          const months = [];
+          for (let item of data){
+            const alreadyIn = months.find((month) => {
+              return (month.month == item.month) && (month.year == item.year)
+            });
+            if (alreadyIn){
+              alreadyIn.num += item.num
+            } else {
+              months.push({
+                month: item.month,
+                year: item.year,
+                num: item.num
+              })
+            }
+          }
+          setMonths(months);
         }
     })
   }, [])
@@ -70,7 +90,7 @@ const Report = () => {
             {report?.map((hour) => 
               <tr>
                 <td>
-                  <h4 style={{margin: '1rem'}} className='date'>{hour.date}</h4>
+                  <h4 style={{margin: '1rem'}} className='date'>{(new Date(hour.date)).toLocaleDateString('it-IT')}</h4>
                 </td>
                 <td>
                   <table>
@@ -86,6 +106,27 @@ const Report = () => {
             )}
           </table>
         </div>
+        <div style={{marginTop: '3rem'}}>
+            <h2 style={{textTransform: 'uppercase'}}>REPORT MESE - {searchParams.get('first_name')} {searchParams.get('last_name')}</h2>
+        </div>
+        <table border="1" bordercolor="#939192">
+            <tr>
+              <td>
+                <h4  style={{margin: '0.5rem'}}>Mese</h4>
+              </td>
+              <td>
+                <h4  style={{margin: '0.5rem'}}>Totale ore</h4>
+              </td>
+            </tr>
+            {months.map((month) => {
+              return (
+                <tr>
+                  <td><h4 style={{margin: '0.5rem', fontWeight: 300}}>{mesi[month.month]} {month.year}</h4></td>
+                  <td><h3 style={{margin: '0.5rem', fontWeight: 300, color: 'var(--orange-color)'}}>{month.num}h</h3></td>
+                </tr>
+              )
+            })} 
+        </table>
     </>
   )
 }

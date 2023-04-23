@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 import { supabase } from '../../utils/supabase-client';
 
@@ -17,6 +17,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { pathname } = useLocation();
   const [currentUser, setCurrentUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
@@ -52,6 +53,16 @@ const Navbar = () => {
                 }
               }
             })}
+            {!(currentUser?.user_metadata?.is_admin) && <div 
+            className='app__navbar app__navbar-item align-items-center'
+            role='button'
+            onClick={() => {
+              navigate(`riepilogo/${currentUser?.id}?first_name=${currentUser.user_metadata.first_name}&last_name=${currentUser.user_metadata.last_name}`);
+              setIsOpen(false);
+            }}
+            >
+              <h3 className={`${pathname.split('/').includes('riepilogo') ? "selected" : ""}`}>RIEPILOGO</h3>
+            </div>}
             <div 
             className='app__navbar app__navbar-item align-items-center'
             role='button'

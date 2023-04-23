@@ -32,7 +32,7 @@ export default [
     {
         display: 'IMPOSTAZIONI',
         path: '/impostazioni',
-        public: true
+        public: false
     },
     
 ]

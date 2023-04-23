@@ -16,6 +16,7 @@ import CreaRapportoGiornaliero from './components/CreaRapportoGiornaliero/CreaRa
 import Login from './components/Auth/Login';
 import Pdf from './components/Pdf/Pdf';
 import Documenti from './components/Documenti/Documenti';
+import Riepilogo from './components/ReportOre/Riepilogo';
  
 function App() {
 
@@ -39,6 +40,7 @@ function App() {
             <Route path='/crea-rapporto-giornaliero/:id' element={<CreaRapportoGiornaliero/>}/>
             <Route path='/documenti/:id' element={<Documenti/>}/>
             <Route path='/login' element={<Login/>}/>
+            <Route path='/riepilogo/:worker' element={<Riepilogo/>}/>
           </Routes>
         </Layout>
       </BrowserRouter>
