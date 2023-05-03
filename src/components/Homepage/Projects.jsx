@@ -123,7 +123,6 @@ const UpdateProject = ({ project, setProjects, handleClose }) => {
   }, [])
 
 
-  console.log(workers); 
 
   const checkboxHandler = (isActive, val) => {
     setWorkers((prev) => prev.map((item) => {
@@ -177,10 +176,12 @@ const Projects = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [currentProject, setCurrentProject] = useState({});
   const { archived } = useContext(Context);
+  const [currentUser, setCurrentUser] = useState({});
 
   useEffect(() => {
   supabase.auth.getUser()
   .then(({data: {user}}) => {
+    setCurrentUser(user);
     if (user?.user_metadata?.is_admin){
       supabase
       .from('projects')
@@ -221,12 +222,12 @@ const Projects = () => {
                         <img src={textAlign} alt="text-align" />
                       </button>
                     </Link>
-                    <button onClick={() => {
+                    {currentUser?.user_metadata?.is_admin && <button onClick={() => {
                       setShowPopup(true);
                       setCurrentProject(project);
                     }}>
                       <img src={settings} alt="settings" />
-                    </button>
+                    </button>}
                 </div>
             </div>
           )

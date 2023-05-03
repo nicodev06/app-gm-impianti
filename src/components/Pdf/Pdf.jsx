@@ -30,7 +30,7 @@ const Pdf = () => {
     const element = document.getElementById('pdf-mockup');
     const options = {
         filename: `Rapporto ${searchParams.get('giornaliero') ? 'Giornaliero' : 'Complessivo'}-${project.name}-${projectPathExtension}`,
-        excludeClassNames: ['signature-pad'],
+        excludeClassNames: ['signature-pad', 'delete-hour'],
         overrideWidth: 650
     };
     domToPdf(element, options, (pdf) => {
@@ -56,6 +56,19 @@ const Pdf = () => {
             alert('Some errors occured');
         }
     }
+  }
+
+  const deleteHour = (hour) => {
+    setHours((prev) => prev.filter((item) => item.id != hour.id));
+    supabase
+    .from('hours')
+    .delete()
+    .eq('id', hour.id)
+    .then(({error}) => {
+        if (error){
+            alert('Ci sono stati degli errori');
+        }
+    })
   }
 
   useEffect(() => {
@@ -152,7 +165,7 @@ const Pdf = () => {
                         {hours.map((item) => {
                             return (
                                 <>
-                                {!searchParams.get('giornaliero')  ? <p style={{marginTop: '0.3em', marginBottom: '0.3em', fontSize: '0.8em'}}>{item.firstName} {item.lastName} -- {item.num} ore -- {(new Date(item.date)).toLocaleDateString('it-IT')}</p> : <p style={{marginTop: '0.3em', marginBottom: '0.3em', fontSize: '0.8em'}}>{item.user_metadata.first_name} {item.user_metadata.last_name} -- {item.hours} ore</p>}</>
+                                {!searchParams.get('giornaliero')  ? <p style={{marginTop: '0.3em', marginBottom: '0.3em', fontSize: '0.8em'}}>{item.firstName} {item.lastName} -- {item.num} ore -- {(new Date(item.date)).toLocaleDateString('it-IT')}  <span className='delete-hour' onClick={() => {deleteHour(item)}}>x</span> </p> : <p style={{marginTop: '0.3em', marginBottom: '0.3em', fontSize: '0.8em'}}>{item.user_metadata.first_name} {item.user_metadata.last_name} -- {item.hours} ore </p>}</>
                             )
                         })}
                     </div>

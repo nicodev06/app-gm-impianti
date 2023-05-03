@@ -27,6 +27,7 @@ const UpdateHours = () => {
       .select()
       .eq('date', date)
       .eq('project_id', projectId)
+      .eq('user_id', currentUser.id)
       if (data.length > 0){
         supabase
         .from('hours')

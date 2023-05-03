@@ -48,3 +48,16 @@ img.signature {
     width: 200px;
     height: auto;
 }
+
+.delete-hour {
+    background-color: var(--dark-color);
+    color: white;
+    padding-right: 3px;
+    padding-left: 3px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    border: 1px transparent solid;
+    border-radius: 10px;
+    margin-left: 10px;
+    cursor: pointer;
+}
