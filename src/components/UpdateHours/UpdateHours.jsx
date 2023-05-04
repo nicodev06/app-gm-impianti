@@ -31,7 +31,7 @@ const UpdateHours = () => {
       if (data.length > 0){
         supabase
         .from('hours')
-        .update({num: parseInt(data[0].num) + parseInt(num)})
+        .update({num: parseInt(num)})
         .eq('date', date)
         .then(({error}) => {
           if (!error){
