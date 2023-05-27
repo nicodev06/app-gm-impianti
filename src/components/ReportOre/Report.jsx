@@ -6,12 +6,18 @@ import { supabase } from '../../utils/supabase-client';
 
 import mesi from '../../utils/months.js';
 
+import {
+  useJsonToCsv
+} from 'react-json-csv';
+
 const Report = () => {
 
   const [searchParams, _] = useSearchParams();
   const { worker } = useParams();
   const [report, setReport] = useState([]);
-  const [months, setMonths] = useState([]);  
+  const [months, setMonths] = useState([]);
+  const [csvHours, setCsvHours] = useState([]);
+  const { saveAsCsv } = useJsonToCsv();  
 
   
   useEffect(() => {
@@ -24,6 +30,7 @@ const Report = () => {
         console.log(data);
         if (!error){
             const hours = [];
+            const csvHoursData = [];
             for (let item of data) {
                 const alreadyIn = hours.find((hour) => {
                   return hour.date == item.date
@@ -46,8 +53,10 @@ const Report = () => {
                       ]
                     })
                   }
+                  csvHoursData.push({date: (new Date(item.date)).toLocaleDateString('it-IT'), project: data[0].name, hours: item.num})
                 }
             }
+          setCsvHours(csvHoursData);
           setReport(hours)
           const months = [];
           for (let item of data){
@@ -69,13 +78,29 @@ const Report = () => {
     })
   }, [])
 
+
   return (
     <>
-        <div style={{marginTop: '3rem'}}>
+        <div style={{marginTop: '3rem', display: 'flex', justifyContent: 'space-between'}}>
             <h2 style={{textTransform: 'uppercase'}}>REPORT ORE - {searchParams.get('first_name')} {searchParams.get('last_name')}</h2>
+            <button 
+            style={{backgroundColor: 'var(--orange-color)'}}
+            onClick={() =>
+              saveAsCsv({ 
+              data: csvHours, 
+              fields: {
+                "date": "Data",
+                "project": "Progetto",
+                "hours": "Numero di ore"
+              }, 
+              filename: `${searchParams.get('first_name')}-${searchParams.get('last_name')}-report-ore.csv` })
+            }
+            >
+              <h3 style={{color: '#fff'}} >Esporta</h3>
+            </button>
         </div>
         <div>
-          <table border="1" bordercolor="#939192"> 
+          <table border="1" bordercolor="#939192" id='report-ore'> 
             <tr>
               <td>
                 <h4  style={{margin: '0.5rem'}}>Giorno</h4>
@@ -106,8 +131,27 @@ const Report = () => {
             )}
           </table>
         </div>
-        <div style={{marginTop: '3rem'}}>
+        <div style={{marginTop: '3rem', display: 'flex', justifyContent: 'space-between'}}>
             <h2 style={{textTransform: 'uppercase'}}>REPORT MESE - {searchParams.get('first_name')} {searchParams.get('last_name')}</h2>
+            <button 
+            style={{backgroundColor: 'var(--orange-color)'}}
+            onClick={() =>
+              saveAsCsv({ 
+              data: months.map((item) => {
+                return {
+                  month: `${mesi[item.month]} ${item.year}`,
+                  num: item.num
+                }
+              }), 
+              fields: {
+                "month": "Mese",
+                "num": "Numero di ore"
+              }, 
+              filename: `${searchParams.get('first_name')}-${searchParams.get('last_name')}-report-mensile.csv` })
+            }
+            >
+              <h3 style={{color: '#fff'}} >Esporta</h3>
+            </button>
         </div>
         <table border="1" bordercolor="#939192">
             <tr>
